@@ -8,6 +8,9 @@ function App() {
     function handleChange(event) {
         setTitle(event.target.value);
     }
+    function handleClick() {
+        alert(title);
+    }
 
 let message ='';
 if (title.length < 5) {
@@ -25,8 +28,9 @@ if (title.length < 5) {
             <h2>My favourite movie for today is {title}</h2>
            {
                title.length > 0 && <div>{message}</div>
-           g}
+           }
             <input type="text" onChange={handleChange}/>
+            <button onClick={() => alert(title)}>Show movie title </button>
         </div>
     );
 }
