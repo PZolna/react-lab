@@ -1,42 +1,44 @@
 import './App.css';
+import "milligram";
 import {useState} from "react";
 
 function App() {
     const [title, setTitle] = useState('Wall-E');
-
-    let message;
-    if (title.length < 5) {
-        message = <div>Tutuł jest za krótki. Nagrywają takie filmy?</div>;
-    } else if (title.length < 15) {
-        message = <div>Tytuł jest ekstra, w sam raz na plakat przed kinem!</div>;
-    } else {
-        message = <div>Tytuł jest za długi, nikt tego nie zapamięta.</div>;
-    }
-
-    function handleChange(event) {
-        setTitle(event.target.value);
-    }
-
-    const movies = [
+    const [year, setYear] = useState('');
+    const [movies, setMovies] = useState([
         {title: "Wall-E"},
         {title: "Pulp Fiction"},
         {title: "Matrix"},
-        {title: "1670"},
-    ];
+        {title: "1670"},]);
 
-    return (
+    function addMovie(event) {
+        event.preventDefault();
+        if (title.length < 5) {
+            return alert('Tytuł jest za krótki');
+        }
+        // props.onMovieSubmit({title, year});
+        setTitle('');
+        setYear('');
+        setMovies([...movies, {title, year}])
+    }
+
+    return <form onSubmit={addMovie}>
+        <h2>Title & Year</h2>
+        <ul>
+            {movies.map(movie => <li key={movie.title}>{movie.title} ({movie.year})</li>)}
+        </ul>
+        <h2>Add movie</h2>
         <div>
-            <h1>My favourite movies to watch</h1>
-            <h2>Titles</h2>
-            <ul>
-                {movies.map(movie => <li key={movie.title}>{movie.title}</li>)}
-            </ul>
-            <h2>My favourite movie for today is {title}</h2>
-            {title.length > 0 && <div>{message}</div>}
-            <input type="text" value={title} onChange={handleChange}/>
-            <button onClick={() => alert(title)}>Pokaż tytuł filmu</button>
+            <label>Tytuł</label>
+            <input type="text" value={title} onChange={(event) => setTitle(event.target.value)}/>
         </div>
-    );
+        <div>
+            <label>Rok nagrania</label>
+            <input type="text" value={year} onChange={(event) => setYear(event.target.value)}/>
+        </div>
+        <button>Add a movie</button>
+    </form>;
+
 }
 
 export default App;
